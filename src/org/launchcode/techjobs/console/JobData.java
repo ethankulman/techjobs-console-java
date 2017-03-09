@@ -10,6 +10,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by LaunchCode
@@ -34,15 +35,15 @@ public class JobData {
         loadData();
 
         ArrayList<String> values = new ArrayList<>();
-
+        field = field.toLowerCase();
         for (HashMap<String, String> row : allJobs) {
             String aValue = row.get(field);
+            aValue = aValue.toLowerCase();
 
             if (!values.contains(aValue)) {
                 values.add(aValue);
             }
         }
-
         return values;
     }
 
@@ -50,8 +51,8 @@ public class JobData {
 
         // load data, if not already loaded
         loadData();
-
-        return allJobs;
+        ArrayList<HashMap<String, String>> cloneOfJobs = new ArrayList<>(allJobs);
+        return cloneOfJobs;
     }
 
     /**
@@ -69,21 +70,50 @@ public class JobData {
 
         // load data, if not already loaded
         loadData();
-
+        value = value.toLowerCase();
+        boolean isMatch = false;
         ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
 
         for (HashMap<String, String> row : allJobs) {
 
             String aValue = row.get(column);
+            aValue = aValue.toLowerCase();
 
             if (aValue.contains(value)) {
+                isMatch = true;
                 jobs.add(row);
             }
         }
-
-        return jobs;
+        if (isMatch) {
+            return jobs;
+        }
+        else{
+            return null;
+        }
     }
 
+    public static ArrayList<HashMap<String, String>> findByValue(String value) {
+        loadData();
+        value = value.toLowerCase();
+        boolean isMatch = false;
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+        for(HashMap<String, String> row : allJobs) {
+            for(String item : row.values()){
+                item = item.toLowerCase();
+                if(item.contains(value)){
+                    if(!jobs.contains(row)) {
+                        isMatch = true;
+                        jobs.add(row);
+                    }
+                }
+            }
+
+        }
+        if(isMatch){
+            return jobs;
+        }
+        return null;
+    }
     /**
      * Read in data from a CSV file and store it in a list
      */
