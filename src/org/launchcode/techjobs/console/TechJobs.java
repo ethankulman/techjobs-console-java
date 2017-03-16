@@ -113,7 +113,10 @@ public class TechJobs {
         if(!someJobs.isEmpty()) {
             for (HashMap<String, String> jobPost : someJobs) {
                 for (Map.Entry<String, String> entry : jobPost.entrySet()) {
-                    System.out.println(entry.getKey() + " : " + entry.getValue());
+                    System.out.print(entry.getKey());
+                    System.out.print(" : ");
+                    System.out.print(entry.getValue());
+                    System.out.println();
                 }
                 System.out.println();
             }

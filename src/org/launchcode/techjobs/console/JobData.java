@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import org.apache.commons.lang3.StringUtils;
 /**
  * Created by LaunchCode
  */
@@ -70,12 +70,10 @@ public class JobData {
 
         // load data, if not already loaded
         loadData();
-        value = value.toLowerCase();
         ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
         for (HashMap<String, String> row : allJobs) {
             String aValue = row.get(column);
-            aValue = aValue.toLowerCase();
-            if (aValue.contains(value)) {
+            if (StringUtils.containsIgnoreCase(aValue, value)) {
                 jobs.add(row);
             }
         }
@@ -84,20 +82,16 @@ public class JobData {
 
     public static ArrayList<HashMap<String, String>> findByValue(String value) {
         loadData();
-        value = value.toLowerCase();
         ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
         for(HashMap<String, String> row : allJobs) {
             for(String item : row.values()){
-                item = item.toLowerCase();
-                if(item.contains(value)){
-                    if(!jobs.contains(row)) {
+                if(StringUtils.containsIgnoreCase(item, value)){
                         jobs.add(row);
                         break;
                     }
                 }
             }
 
-        }
         return jobs;
     }
     /**
